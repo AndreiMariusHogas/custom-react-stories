@@ -1,0 +1,7 @@
+.main {
+  position: relative;
+  touch-action: manipulation;
+  background-color: black;
+  user-select: none;
+  -webkit-touch-callout:none;
+}
