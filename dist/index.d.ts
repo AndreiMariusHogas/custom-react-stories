@@ -1,4 +1,5 @@
 /// <reference types="react" />
 import { IStoryProps } from './types';
-export default function Stories({ stories, width, height, onStoryChange, currentIndex, defaultDuration, onAllStoriesEnd, onStoriesStart, onRepeatPrev }: IStoryProps): JSX.Element | null;
+declare const Stories: import("react").ForwardRefExoticComponent<IStoryProps & import("react").RefAttributes<unknown>>;
+export default Stories;
 //# sourceMappingURL=index.d.ts.map

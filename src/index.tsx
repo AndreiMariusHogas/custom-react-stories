@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, forwardRef, useImperativeHandle } from 'react'
 import { StoriesContext } from './Contexts'
 import { Actions, Progress, Story } from './Components'
 import { IStoryProps, IStoryIndexedObject, IStoryContext } from './types'
@@ -7,7 +7,7 @@ import * as hooks from './Hooks'
 import styles from './styles.css'
 import * as utilities from './utilities'
 
-export default function Stories ({
+const Stories = forwardRef(({
   stories = [],
   width = '100%',
   height = '100%',
@@ -17,7 +17,7 @@ export default function Stories ({
   onAllStoriesEnd = () => {},
   onStoriesStart = () => {},
   onRepeatPrev = () => {}
-}: IStoryProps): JSX.Element | null {
+}: IStoryProps, ref:any): JSX.Element | null => {
   const storiesWithIndex: IStoryIndexedObject[] = useMemo(() => {
     return utilities.transformStories(stories, defaultDuration)
   }, [stories, defaultDuration])
@@ -66,6 +66,7 @@ export default function Stories ({
       return storiesWithIndex[newIndex]
     })
   }
+
   function handlePrevClick () {
     if (selectedStory?.index === firstStoryIndex) {
       if (hasCalledStartedCb.current) {
@@ -88,6 +89,15 @@ export default function Stories ({
   function handleResume () {
     setIsPaused(false)
   }
+
+  useImperativeHandle(ref, () => ({
+      next() {
+        handleNextClick()
+      },
+      previous(){
+        handlePrevClick()
+      }
+  }));
 
   useEffect(() => {
     if (selectedStory) {
@@ -132,4 +142,6 @@ export default function Stories ({
       </div>
     </StoriesContext.Provider>
   )
-}
+})
+
+export default Stories
